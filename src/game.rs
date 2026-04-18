@@ -7,6 +7,15 @@ use crate::{
 
 pub type Board = [[Option<TetrominoKind>; BOARD_WIDTH]; BOARD_HEIGHT];
 
+#[derive(Clone, Copy, Debug, PartialEq, Eq)]
+pub enum GameCommand {
+    MoveLeft,
+    MoveRight,
+    SoftDrop,
+    Rotate,
+    HardDrop,
+}
+
 pub struct Game {
     pub board: Board,
     pub current: Piece,
@@ -68,6 +77,32 @@ impl Game {
     pub fn hard_drop(&mut self) {
         while self.try_move(0, 1) {}
         self.lock_piece();
+    }
+
+    pub fn handle_command(&mut self, command: GameCommand) {
+        if self.game_over {
+            return;
+        }
+
+        match command {
+            GameCommand::MoveLeft => {
+                self.try_move(-1, 0);
+            }
+            GameCommand::MoveRight => {
+                self.try_move(1, 0);
+            }
+            GameCommand::SoftDrop => {
+                if !self.try_move(0, 1) {
+                    self.lock_piece();
+                }
+            }
+            GameCommand::Rotate => {
+                self.try_rotate();
+            }
+            GameCommand::HardDrop => {
+                self.hard_drop();
+            }
+        }
     }
 
     pub fn tick(&mut self) {

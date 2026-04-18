@@ -37,7 +37,10 @@ pub fn render(stdout: &mut Stdout, game: &Game) -> io::Result<()> {
         write!(stdout, "|")?;
     }
 
-    queue!(stdout, cursor::MoveTo(0, (crate::constants::BOARD_HEIGHT + 4) as u16))?;
+    queue!(
+        stdout,
+        cursor::MoveTo(0, (crate::constants::BOARD_HEIGHT + 4) as u16)
+    )?;
     write!(stdout, "+")?;
     for _ in 0..BOARD_WIDTH {
         write!(stdout, "--")?;
