@@ -1,5 +1,7 @@
 # Tetris Rust
 
+<img width="662" height="493" alt="image" src="https://github.com/user-attachments/assets/09363a02-ce14-477d-ace2-1a8e6ad2d4f4" />
+
 Um Tetris em Rust rodando no terminal, com controles por teclado, pontuacao, limpeza de linhas e arquitetura modular para facilitar evolucao futura para interface grafica.
 
 ## Funcionalidades
