@@ -33,3 +33,19 @@ jobs:
 
       - name: Build Docker image
         run: docker build -t tetris-rust .
+
+  windows:
+    runs-on: windows-latest
+    needs: rust
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v5
+
+      - name: Build Windows executable
+        run: cargo build --release
+
+      - name: Upload Windows artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: tetris-rust-windows
+          path: build/release/tetris_rust.exe
