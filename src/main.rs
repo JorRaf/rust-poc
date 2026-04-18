@@ -9,7 +9,7 @@ mod render;
 mod terminal;
 
 use constants::{FALL_INTERVAL, FRAME_TIME};
-use game::Game;
+use game::{Game, GameCommand};
 use render::render;
 use terminal::TerminalGuard;
 
@@ -31,20 +31,20 @@ fn main() -> io::Result<()> {
             }
 
             match key_event.code {
-                KeyCode::Left if !game.game_over => {
-                    game.try_move(-1, 0);
+                KeyCode::Left => {
+                    game.handle_command(GameCommand::MoveLeft);
                 }
-                KeyCode::Right if !game.game_over => {
-                    game.try_move(1, 0);
+                KeyCode::Right => {
+                    game.handle_command(GameCommand::MoveRight);
                 }
-                KeyCode::Down if !game.game_over && !game.try_move(0, 1) => {
-                    game.lock_piece();
+                KeyCode::Down => {
+                    game.handle_command(GameCommand::SoftDrop);
                 }
-                KeyCode::Up if !game.game_over => {
-                    game.try_rotate();
+                KeyCode::Up => {
+                    game.handle_command(GameCommand::Rotate);
                 }
-                KeyCode::Char(' ') if !game.game_over => {
-                    game.hard_drop();
+                KeyCode::Char(' ') => {
+                    game.handle_command(GameCommand::HardDrop);
                 }
                 KeyCode::Char('q') => break,
                 _ => {}
